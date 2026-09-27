@@ -29,3 +29,16 @@ Ver a seção "O que falta" em `backend/README.md` — resumindo: equipar item
 via API, catch-up de progresso offline (pra idle/AFK funcionar de verdade
 mesmo com o personagem desconectado), PT de 5 personagens, mais mapas/spots,
 skills por classe.
+
+## Log de sessões
+
+Toda vez que o projeto for trabalhado a partir do chat (não pelo Claude
+Code direto no repositório), a entrada correspondente é adicionada aqui —
+assim o Claude Code, ao continuar o trabalho, sabe o que foi feito fora do
+repositório antes de seguir.
+
+- **2026-09-27** — Sessão inicial via chat: criado o backend completo
+  (auth, personagens, combate autoritativo, persistência) e o esqueleto do
+  cliente Unity (scripts de rede, câmera isométrica, views, HUD). Testado
+  ponta a ponta no sandbox do chat. Repositório criado e populado com o
+  primeiro commit.
