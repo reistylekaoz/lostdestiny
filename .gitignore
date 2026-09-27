@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+*.log
+
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+.vs/
+*.csproj
+*.sln
+*.user
