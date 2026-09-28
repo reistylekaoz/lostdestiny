@@ -4,6 +4,19 @@ extends Node3D
 ## HUD) e liga os sinais do NetworkClient às views.
 
 const CONFIG_PATH := "res://dev_config.cfg"
+const WARRIOR_SCENE := preload("res://assets/kaykit_adventurers/Knight.glb")
+const PLAYER_POSITION := Vector3(-4, 0, 0)
+const PLAYER_SCALE := 0.8
+const DUAL_ATTACKS: Array[StringName] = [
+	&"Dualwield_Melee_Attack_Chop", &"Dualwield_Melee_Attack_Slice", &"Dualwield_Melee_Attack_Stab",
+]
+
+# Peças que já vêm no modelo do Knight. Armas saem daqui e entram pelos slots;
+# a capa sai porque a asa ocupa as costas.
+const WARRIOR_BUILTIN_GEAR := [
+	"1H_Sword", "1H_Sword_Offhand", "2H_Sword", "Knight_Cape",
+	"Badge_Shield", "Rectangle_Shield", "Round_Shield", "Spike_Shield",
+]
 
 # Arco na frente do personagem; índice = índice do slot no servidor (0-5).
 const SLOT_POSITIONS: Array[Vector3] = [
@@ -14,6 +27,8 @@ const SLOT_POSITIONS: Array[Vector3] = [
 var _network := NetworkClient.new()
 var _hud := Hud.new()
 var _slots: Array[MobSlotView] = []
+var _player: CharacterView
+var _attack_index := 0
 
 
 func _ready() -> void:
@@ -46,7 +61,16 @@ func _on_snapshot(snapshot: Dictionary) -> void:
 		var index := int(slot.get("index", -1))
 		if index < 0 or index >= _slots.size():
 			continue
-		_slots[index].apply(slot, target != null and int(target) == index)
+		var damage := _slots[index].apply(slot, target != null and int(target) == index)
+		# Só o personagem causa dano nos mobs: HP caiu = ele acabou de atacar.
+		if damage > 0:
+			_player_attack(_slots[index].global_position)
+
+
+func _player_attack(target: Vector3) -> void:
+	_player.look_at(Vector3(target.x, _player.global_position.y, target.z), Vector3.UP, true)
+	_player.play_once(DUAL_ATTACKS[_attack_index % DUAL_ATTACKS.size()], 1.4)
+	_attack_index += 1
 
 
 func _build_world() -> void:
@@ -74,19 +98,24 @@ func _build_world() -> void:
 	ground.mesh = plane
 	add_child(ground)
 
-	# Personagem fixo no spot: não anda, só "ataca" (o alvo muda de cor).
-	var player := MeshInstance3D.new()
-	var capsule := CapsuleMesh.new()
-	capsule.material = _flat_material(Color(0.23, 0.56, 0.56))
-	player.mesh = capsule
-	player.position = Vector3(-4, 1, 0)
-	add_child(player)
+	# Personagem fixo no spot: não anda, só ataca o mob da vez.
+	# Guerreiro de duas espadas: as espadas são itens encaixados nos slots das mãos.
+	_player = CharacterView.new(WARRIOR_SCENE, &"Idle")
+	_player.set_parts_visible(WARRIOR_BUILTIN_GEAR, false)
+	_player.equip("weapon_r", ItemVisuals.make("sword_1h"))
+	_player.equip("weapon_l", ItemVisuals.make("sword_1h"))
+	_player.equip("wings", ItemVisuals.make("wings_placeholder"))
+	_player.scale = Vector3.ONE * PLAYER_SCALE
+	_player.position = PLAYER_POSITION
+	add_child(_player)
+	_player.look_at(Vector3(2.5, 0, -1), Vector3.UP, true)
 
 	for i in SLOT_POSITIONS.size():
 		var slot := MobSlotView.new()
 		slot.name = "MobSlot_%d" % i
 		slot.position = SLOT_POSITIONS[i]
 		add_child(slot)
+		slot.face(PLAYER_POSITION)
 		_slots.append(slot)
 
 

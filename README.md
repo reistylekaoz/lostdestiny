@@ -20,8 +20,10 @@ cliente só renderiza.
 - Backend: auth, até 5 personagens por conta, 11 classes definidas, combate
   autoritativo com 6 mobs simultâneos por spot, level up, drop de itens,
   persistência completa — tudo testado ponta a ponta.
-- Cliente Godot: login, farm automático, câmera isométrica, 6 mobs com barra
-  de HP e números de dano, HUD — testado ponta a ponta contra o backend.
+- Cliente Godot: login, farm automático, câmera isométrica, guerreiro de duas
+  espadas animado contra 6 esqueletos (barra de HP, números de dano), HUD, e
+  slots de equipamento visual (armas, asas) — testado ponta a ponta contra o
+  backend.
 
 ## Próximos passos
 
