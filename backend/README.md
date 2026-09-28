@@ -1,7 +1,7 @@
 # Vale Sombrio — Backend
 
 Esqueleto do servidor autoritativo do MU-like idle/AFK. Toda a simulação de
-combate, drops e progressão roda aqui — o cliente (Unity) nunca calcula nada,
+combate, drops e progressão roda aqui — o cliente (Godot) nunca calcula nada,
 só renderiza o que o servidor manda.
 
 ## Stack
@@ -63,6 +63,3 @@ Variáveis de ambiente em `.env` (`DATABASE_URL`, `JWT_SECRET`, `PORT`).
   etc. — hoje todas as classes atacam igual
 - **Autenticação real de produção**: JWT em `.env` de dev não é seguro para
   produção; trocar secret e considerar refresh tokens
-- **Cliente Unity**: conectar via WebSocket, autenticar, assinar o
-  personagem e renderizar os snapshots (mob HP, XP, drops, level up) — a
-  lógica visual já foi validada no protótipo HTML anterior

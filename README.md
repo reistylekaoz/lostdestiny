@@ -11,17 +11,17 @@ cliente só renderiza.
 - **`backend/`** — servidor Node + TypeScript + PostgreSQL. Dono da verdade:
   simula combate, calcula status, persiste tudo. Ver `backend/README.md`
   para setup e para o que já existe / falta.
-- **`unity-client/`** — protótipo de cliente 3D isométrico em Unity. Conecta
+- **`godot-client/`** — cliente 3D isométrico em Godot 4 (GDScript). Conecta
   no backend via REST + WebSocket, não calcula nada. Ver
-  `unity-client/README.md` para o passo a passo de configuração da cena.
+  `godot-client/README.md` para rodar.
 
 ## Estado atual
 
 - Backend: auth, até 5 personagens por conta, 11 classes definidas, combate
   autoritativo com 6 mobs simultâneos por spot, level up, drop de itens,
   persistência completa — tudo testado ponta a ponta.
-- Cliente Unity: scripts prontos (rede, câmera isométrica, views dos mobs,
-  HUD), aguardando a montagem da cena no Editor.
+- Cliente Godot: login, farm automático, câmera isométrica, 6 mobs com barra
+  de HP e números de dano, HUD — testado ponta a ponta contra o backend.
 
 ## Próximos passos
 

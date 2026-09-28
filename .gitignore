@@ -3,14 +3,7 @@ dist/
 .env
 *.log
 
-# Unity
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
-[Bb]uild/
-[Bb]uilds/
-[Ll]ogs/
-.vs/
-*.csproj
-*.sln
-*.user
+# Godot
+.godot/
+godot-client/dev_config.cfg
+godot-client/export/
